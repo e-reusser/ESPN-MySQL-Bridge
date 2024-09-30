@@ -12,10 +12,10 @@ league = League(league_id=417113629, year=2024, espn_s2='AEA3ovoQfgtnAzAQnu9tNfK
 
 print("Connecting to MySQL server...")
 db = mysql.connector.connect(
-    host="23.139.82.71",
-    user="u159_BoqoTGvfHP",
-    password="AyUmkuR@fj.5DiRg48oJxqEJ",
-    database="s159_testdb"
+    host="localhost",
+    user="user",
+    password="password",
+    database="database"
 )
 
 cursor = db.cursor(buffered=True)
