@@ -23,6 +23,8 @@ def createTables(cursor):
         teamName VARCHAR(100) NOT NULL,
         leagueID INT NOT NULL,
         FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -47,8 +49,12 @@ def createTables(cursor):
         leagueID INT,
         teamID INT,
         PRIMARY KEY (leagueID, teamID),
-        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID),
+        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         FOREIGN KEY (teamID) REFERENCES Teams (teamID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -61,6 +67,8 @@ def createTables(cursor):
         label VARCHAR(255),
         points DECIMAL(5, 2),
         FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -73,8 +81,12 @@ def createTables(cursor):
         week INT NOT NULL,
         team1Score INT,
         team2Score INT,
-        FOREIGN KEY (team1ID) REFERENCES Teams (teamID),
+        FOREIGN KEY (team1ID) REFERENCES Teams (teamID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         FOREIGN KEY (team2ID) REFERENCES Teams (teamID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
