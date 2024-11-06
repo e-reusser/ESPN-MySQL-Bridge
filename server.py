@@ -1,21 +1,25 @@
 from espn_api.football import League
 from insertQueries import refreshScores, refreshPlayerData, refreshProjectedScores
 from createTables import createTables
+from dotenv import load_dotenv
+import os
 import mysql.connector
 import time
-
-deleteFirst = False
-size = 300
 
 print("Connecting to ESPN API...")
 league = League(league_id=417113629, year=2024, espn_s2='AEA3ovoQfgtnAzAQnu9tNfKaEMySnEGJKOvLmnUZqAXhdouMb4q2N1JkD4jjfX%2BqVxiXlErUb6fX6godNrr%2F%2FHYDMbqQIDZ%2FUNKLgxftU%2B37T6tW3ouCmkYDFVKqSPdQ8IVqYx%2BlGfhIhsAXQ9RIawInKaL9ddoByXEkU%2BMDoSbwOJfWtm2KW1m%2FpUHdnbEahQ01PA74u2Y6mBtqTJ%2BF1WM3VjC2mVwAPwkN0W8rewQdwsAYUYAq7MY8iAzOpfKVXUYn5TbEji4MYWQcEZDOXJWCj3LQlKNL7Fr4c3h2sG3qJg%3D%3D', swid='{9BC0B2D2-78ED-4395-87C5-776E8EFB14FC}')
 
+load_dotenv()
+
+deleteFirst = os.getenv('DELETEFIRST')
+size = os.getenv('SIZE')
+
 print("Connecting to MySQL server...")
 db = mysql.connector.connect(
-    host="localhost",
-    user="user",
-    password="password",
-    database="database"
+    host=os.getenv('DB_HOST'),
+    user=os.getenv('DB_USER'),
+    password=os.getenv('DB_PASSWORD'),
+    database=os.getenv('DB_NAME')
 )
 
 cursor = db.cursor(buffered=True)
@@ -26,7 +30,6 @@ tables = {
     "LeagueTeams",
     "ScoringFormat",
     "Matches",
-    "PlayerStatistics",
     "AutoSubs"
 }
 
