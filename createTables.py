@@ -5,6 +5,7 @@ def createTables(cursor):
         leagueID INT AUTO_INCREMENT PRIMARY KEY,
         reg_season_count INT NOT NULL,
         team_count INT NOT NULL,
+        current_team_count INT NOT NULL,
         playoff_team_count INT NOT NULL,
         name VARCHAR(50) NOT NULL,
         tie_rule INT,
