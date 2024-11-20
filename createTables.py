@@ -237,3 +237,35 @@ def createTables(cursor):
         FOREIGN KEY (matchID) REFERENCES Matches (matchID)
     );
     """)
+
+    # Users
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Users (
+        UserID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL,
+        email VARCHAR(200) NOT NULL,
+        password VARCHAR(255) NOT NULL
+    );
+    """)
+
+    # LeagueUser
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS LeagueUser (
+        linkID INT AUTO_INCREMENT PRIMARY KEY,
+        leagueID INT,
+        userID INT,
+        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID),
+        FOREIGN KEY (userID) REFERENCES Users (UserID)
+    );
+    """)
+
+    # TeamUser
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS TeamUser (
+        linkID INT AUTO_INCREMENT PRIMARY KEY,
+        teamID INT,
+        userID INT,
+        FOREIGN KEY (userID) REFERENCES Users (UserID),
+        FOREIGN KEY (teamID) REFERENCES Teams (teamID)
+    );
+    """)
