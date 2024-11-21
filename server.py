@@ -24,7 +24,6 @@ db = mysql.connector.connect(
 
 cursor = db.cursor(buffered=True)
 tables = {
-    "Players",
     "Teams",
     "Leagues",
     "LeagueTeams",
