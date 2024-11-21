@@ -30,7 +30,9 @@ tables = {
     "LeagueTeams",
     "ScoringFormat",
     "Matches",
-    "AutoSubs"
+    "AutoSubs",
+    "LeagueUser",
+    "TeamUser"
 }
 
 if (deleteFirst):

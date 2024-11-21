@@ -265,7 +265,9 @@ def createTables(cursor):
         linkID INT AUTO_INCREMENT PRIMARY KEY,
         teamID INT,
         userID INT,
+        leagueID INT,
         FOREIGN KEY (userID) REFERENCES Users (UserID),
-        FOREIGN KEY (teamID) REFERENCES Teams (teamID)
+        FOREIGN KEY (teamID) REFERENCES Teams (teamID),
+        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
     );
     """)
