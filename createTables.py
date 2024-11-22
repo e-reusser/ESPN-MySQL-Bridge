@@ -271,3 +271,18 @@ def createTables(cursor):
         FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
     );
     """)
+
+    # PlayerTeam
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS PlayerTeam (
+        playerTeamID INT AUTO_INCREMENT PRIMARY KEY,
+        playerID INT NOT NULL,
+        teamID INT NOT NULL,
+        leagueID INT NOT NULL,
+        slot VARCHAR(20) NOT NULL DEFAULT 'BE',
+        claimedDate DATETIME NOT NULL DEFAULT current_timestamp(),
+        FOREIGN KEY (playerID) REFERENCES Players (playerID),
+        FOREIGN KEY (teamID) REFERENCES Teams (teamID),
+        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+    );
+    """)

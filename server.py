@@ -31,7 +31,8 @@ tables = {
     "Matches",
     "AutoSubs",
     "LeagueUser",
-    "TeamUser"
+    "TeamUser",
+    "PlayerTeam"
 }
 
 if (deleteFirst):
