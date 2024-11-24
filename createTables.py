@@ -231,10 +231,8 @@ def createTables(cursor):
         subID INT AUTO_INCREMENT PRIMARY KEY,
         playerID INT,
         substituteID INT,
-        matchID INT,
         FOREIGN KEY (playerID) REFERENCES Players (playerID),
-        FOREIGN KEY (substituteID) REFERENCES Players (playerID),
-        FOREIGN KEY (matchID) REFERENCES Matches (matchID)
+        FOREIGN KEY (substituteID) REFERENCES Players (playerID)
     );
     """)
 

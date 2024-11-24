@@ -114,16 +114,22 @@ def insertPlayerData(cursor, player):
 
 def refreshPlayerData(cursor, league, playerID):
     checkIfExists = """
-    SELECT COUNT(*) FROM Players WHERE playerID = %s
+        SELECT injured FROM Players WHERE playerID = %s
     """
 
     player = league.player_info(playerId=playerID)
 
     cursor.execute(checkIfExists, (playerID,))
-    exists = cursor.fetchone()[0]
-    if (not exists):
+    result = cursor.fetchone()
+    if result is None:
         insertPlayerData(cursor, player)
         return
+    
+    previousInjuredStatus = result[0]
+
+    if previousInjuredStatus != player.injured:
+        print("Status changed for " + player.name)
+        swapSlotsForSubstitute(cursor, playerID)
 
     updatePlayer = """
         UPDATE Players SET
@@ -146,6 +152,46 @@ def refreshPlayerData(cursor, league, playerID):
             ",".join(player.eligibleSlots),
             player.playerId
         ))
+
+def swapSlotsForSubstitute(cursor, playerID):
+    findSubstituteTeamsQuery = """
+        SELECT pt.teamID, ps.playerID, ps.substituteID
+        FROM AutoSubs as ps
+        JOIN PlayerTeam as pt ON pt.playerID = ps.playerID
+        WHERE ps.substituteID = %s
+    """
+    
+    cursor.execute(findSubstituteTeamsQuery, (playerID,))
+    result = cursor.fetchall()
+
+    for teamID, playerID, substituteID in result:
+        getSlotsQuery = """
+            SELECT pt.slot
+            FROM PlayerTeam as pt
+            WHERE pt.teamID = %s AND pt.playerID IN (%s, %s)
+        """
+        
+        cursor.execute(getSlotsQuery, (teamID, playerID, substituteID))
+        slots = cursor.fetchall()
+        
+        if len(slots) == 2:
+            playerSlot, substituteSlot = slots[0][0], slots[1][0]
+
+            updateSlotQuery = """
+                UPDATE PlayerTeam SET slot = %s WHERE teamID = %s AND playerID = %s
+            """
+            cursor.execute(updateSlotQuery, (substituteSlot, teamID, playerID))
+            cursor.execute(updateSlotQuery, (playerSlot, teamID, substituteID))
+
+            print(f"Swapped slots for player {playerID} and substitute {substituteID} on team {teamID}.")
+            
+            # Delete the entry from AutoSubs table after the swap
+            deleteAutoSubsQuery = """
+                DELETE FROM AutoSubs WHERE playerID = %s AND substituteID = %s
+            """
+            cursor.execute(deleteAutoSubsQuery, (playerID, substituteID))
+            print(f"Deleted AutoSubs entry for player {playerID} and substitute {substituteID}.")
+
 
 def refreshScores(cursor, league, playerID, week):
     checkIfExists = """
