@@ -41,6 +41,8 @@ def createTables(cursor):
         average_points DECIMAL(5, 2),
         eligible_slots VARCHAR(50),
         FOREIGN KEY (teamID) REFERENCES Teams (teamID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -155,6 +157,8 @@ def createTables(cursor):
         madeExtraPoints INT DEFAULT 0,
         attemptedExtraPoints INT DEFAULT 0,
         FOREIGN KEY (playerID) REFERENCES Players (playerID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -222,6 +226,8 @@ def createTables(cursor):
         madeExtraPoints INT DEFAULT 0,
         attemptedExtraPoints INT DEFAULT 0,
         FOREIGN KEY (playerID) REFERENCES Players (playerID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -231,8 +237,12 @@ def createTables(cursor):
         subID INT AUTO_INCREMENT PRIMARY KEY,
         playerID INT,
         substituteID INT,
-        FOREIGN KEY (playerID) REFERENCES Players (playerID),
+        FOREIGN KEY (playerID) REFERENCES Players (playerID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         FOREIGN KEY (substituteID) REFERENCES Players (playerID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -252,8 +262,12 @@ def createTables(cursor):
         linkID INT AUTO_INCREMENT PRIMARY KEY,
         leagueID INT,
         userID INT,
-        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID),
+        FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         FOREIGN KEY (userID) REFERENCES Users (UserID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -264,9 +278,15 @@ def createTables(cursor):
         teamID INT,
         userID INT,
         leagueID INT,
-        FOREIGN KEY (userID) REFERENCES Users (UserID),
-        FOREIGN KEY (teamID) REFERENCES Teams (teamID),
+        FOREIGN KEY (userID) REFERENCES Users (UserID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+        FOREIGN KEY (teamID) REFERENCES Teams (teamID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
 
@@ -279,8 +299,14 @@ def createTables(cursor):
         leagueID INT NOT NULL,
         slot VARCHAR(20) NOT NULL DEFAULT 'BE',
         claimedDate DATETIME NOT NULL DEFAULT current_timestamp(),
-        FOREIGN KEY (playerID) REFERENCES Players (playerID),
-        FOREIGN KEY (teamID) REFERENCES Teams (teamID),
+        FOREIGN KEY (playerID) REFERENCES Players (playerID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+        FOREIGN KEY (teamID) REFERENCES Teams (teamID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
         FOREIGN KEY (leagueID) REFERENCES Leagues (leagueID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
     );
     """)
