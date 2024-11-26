@@ -38,6 +38,7 @@ def createTables(cursor):
         teamID INT NULL,
         injured BOOLEAN,
         posRank INT,
+        proTeam VARCHAR(5) NOT NULL,
         average_points DECIMAL(5, 2),
         eligible_slots VARCHAR(50),
         FOREIGN KEY (teamID) REFERENCES Teams (teamID)

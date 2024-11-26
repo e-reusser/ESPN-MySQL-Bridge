@@ -98,8 +98,8 @@ def insertPlayerStatistics(cursor, league, playerID, week):
 
 def insertPlayerData(cursor, player):
     insertPlayer = """
-    INSERT INTO Players (playerID, name, position, teamID, injured, posRank, average_points, eligible_slots)
-    VALUES (%s, %s, %s, NULL, %s, %s, %s, %s)
+    INSERT INTO Players (playerID, name, position, teamID, injured, posRank, proTeam, average_points, eligible_slots)
+    VALUES (%s, %s, %s, NULL, %s, %s, %s, %s, %s)
     """
 
     cursor.execute(insertPlayer, (
@@ -108,6 +108,7 @@ def insertPlayerData(cursor, player):
         player.position,
         player.injured,
         player.posRank,
+        player.proTeam,
         player.avg_points,
         ",".join(player.eligibleSlots)
     ))
@@ -138,6 +139,7 @@ def refreshPlayerData(cursor, league, playerID):
             teamID = NULL,
             injured = %s,
             posRank = %s,
+            proTeam = %s,
             average_points = %s,
             eligible_slots = %s
         WHERE playerID = %s
@@ -148,6 +150,7 @@ def refreshPlayerData(cursor, league, playerID):
             player.position,
             player.injured,
             player.posRank,
+            player.proTeam,
             player.avg_points,
             ",".join(player.eligibleSlots),
             player.playerId

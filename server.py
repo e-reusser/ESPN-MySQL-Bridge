@@ -25,6 +25,7 @@ db = mysql.connector.connect(
 cursor = db.cursor(buffered=True)
 tables = {
     "Teams",
+    "Players",
     "Leagues",
     "LeagueTeams",
     "ScoringFormat",
